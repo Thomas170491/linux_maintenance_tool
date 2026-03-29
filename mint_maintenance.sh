@@ -1,7 +1,33 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-LOG_FILE="$HOME/projects/linux_maintenance.log"
+cleanup() {
+  stty sane
+}
+
+trap cleanup EXIT
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ENV_FILE="$SCRIPT_DIR/.env"
+
+if [[ -f "$ENV_FILE" ]]; then
+  while IFS='=' read -r key value; do
+    # Skip empty lines and comments
+    [[ -z "$key" || "$key" =~ ^# ]] && continue
+
+    # Only set variable if NOT already set
+    if [[ -z "${!key:-}" ]]; then
+      export "$key=$value"
+    fi
+  done < "$ENV_FILE"
+fi
+
+LOG_FILE="${LOG_FILE:-$HOME/linux_maintenance.log}"
+
+if [[ "$LOG_FILE" != /* ]]; then
+  LOG_FILE="$HOME/$LOG_FILE"
+fi
+
 
 print_header() {
   echo
@@ -9,6 +35,8 @@ print_header() {
   echo " Linux Mint Maintenance Utility"
   echo "========================================"
   echo
+
+
 }
 
 log() {
@@ -157,6 +185,7 @@ show_menu() {
 }
 
 main() {
+  mkdir -p "$(dirname "$LOG_FILE")"
   touch "$LOG_FILE"
 
   while true; do
