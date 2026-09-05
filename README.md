@@ -13,6 +13,6 @@ A simple Bash utility for Linux Mint maintenance.
 
 ## Run
 ```bash
-chmod +x linux_maintenance.sh
-./linux_maintenance.sh
+chmod +x mint_maintenance.sh
+./mint_maintenance.sh
 ```
