@@ -2,8 +2,8 @@
 set -euo pipefail
 
 # User whose home directory should be maintained.
-TARGET_USER="${TARGET_USER:-your-username}"
-TARGET_HOME="${TARGET_HOME:-/home/$TARGET_USER}"
+TARGET_USER="${TARGET_USER:-${SUDO_USER:-$(id -un)}}"
+TARGET_HOME="${TARGET_HOME:-$(getent passwd "$TARGET_USER" | cut -d: -f6)}"
 
 AUTO_MODE=false
 
