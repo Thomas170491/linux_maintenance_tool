@@ -1,0 +1,10 @@
+[Unit]
+Description=Linux Mint weekly maintenance
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+Environment="TARGET_USER=your-username"
+Environment="TARGET_HOME=/home/your-username"
+ExecStart=/usr/local/sbin/mint-maintenance --auto
