@@ -169,6 +169,18 @@ Type=oneshot
 Environment="TARGET_USER=your-username"
 Environment="TARGET_HOME=/home/your-username"
 ExecStart=/usr/local/sbin/mint-maintenance --auto
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectControlGroups=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectKernelLogs=true
+RestrictRealtime=true
+LockPersonality=true
+ProtectClock=true
+ProtectHostname=true
+RestrictSUIDSGID=true
+UMask=0077
 ```
 
 Install the service:
@@ -342,6 +354,9 @@ This removes unused Docker resources. Review this behavior before enabling autom
 - Avoid executing a user-writable script directly as root from systemd.
 - Keep `.env` files and logs out of version control.
 - Review automatic cleanup behavior before enabling the timer.
+- The service uses a conservative systemd hardening profile.
+- Hardening is intentionally conservative to preserve reliability for `apt-get`, Docker, journal cleanup, and user-home maintenance.
+- More aggressive sandboxing such as `PrivateNetwork=true`, `ProtectSystem=strict`, or broad syscall/capability filtering may break legitimate maintenance tasks and should be tested carefully before enabling.
 
 ## License
 
