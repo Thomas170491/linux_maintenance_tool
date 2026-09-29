@@ -8,3 +8,16 @@ Type=oneshot
 Environment="TARGET_USER=your-username"
 Environment="TARGET_HOME=/home/your-username"
 ExecStart=/usr/local/sbin/mint-maintenance --auto
+
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectControlGroups=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectKernelLogs=true
+RestrictRealtime=true
+LockPersonality=true
+ProtectClock=true
+ProtectHostname=true
+RestrictSUIDSGID=true
+UMask=0077
